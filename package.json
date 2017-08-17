@@ -18,12 +18,7 @@
     "url": "https://github.com/ElementUI/region-picker/issues"
   },
   "homepage": "https://ElementUI.github.io/region-picker",
-  "keywords": [
-    "element",
-    "vue",
-    "region picker",
-    "component"
-  ],
+  "keywords": ["element", "vue", "region picker", "component"],
   "author": "liril <god@liril.net>",
   "license": "MIT",
   "devDependencies": {
