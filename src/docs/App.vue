@@ -3,37 +3,38 @@
     h2 RegionPicker 行政区选择器
     p 用于选择行政区
 
-    h3 单选
-    region-picker(:data="data")
+    //- h3 单选
+    //- region-picker(:data="data")
 
-    h3 多选
-    region-picker(multiple, :data="data")
+    //- h3 多选
+    //- region-picker(multiple, :data="data")
 
-    h3 占位符
-    region-picker(:data="data", placeholder="请选择城市")
+    //- h3 占位符
+    //- region-picker(:data="data", placeholder="请选择城市")
 
     h3 二级
-    region-picker(:max-level=2, :data="data")
+    region-picker(:max-level=4, :data="address")
 
-    h3 禁用
-    region-picker(disabled, :data="data")
+    //- h3 禁用
+    //- region-picker(disabled, :data="data")
 
-    h3 单选默认值
-    region-picker(v-model="singlePlace", :data="data")
+    //- h3 单选默认值
+    //- region-picker(v-model="singlePlace", :data="data")
 
-    h3 多选默认值
-    region-picker(v-model="multiplePlace", multiple, :data="data")
+    //- h3 多选默认值
+    //- region-picker(v-model="multiplePlace", multiple, :data="data")
 
-    h3 无城市数据
-    region-picker
+    //- h3 无城市数据
+    //- region-picker
 
-    h3 异步数据加载
-    region-picker(v-model="defferedPlace", :data="defferedData")
+    //- h3 异步数据加载
+    //- region-picker(v-model="defferedPlace", :data="defferedData")
 </template>
 
 <script>
 import RegionPicker from '../index';
 import data from '../components/data';
+import address from './address';
 
 export default {
   name: 'app',
@@ -43,6 +44,7 @@ export default {
   data() {
     return {
       data,
+      address,
       defferedData: {},
       singlePlace: '310107',
       multiplePlace: ['310101', '310104', '310105', '310106', '310109', '310110', '310112', '310113', '310114', '310115', '310116', '310117', '310118', '310120', '310151'],
@@ -50,7 +52,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => this.defferedData= data, 3000);
+    setTimeout(() => this.defferedData = data, 3000);
   }
 };
 </script>

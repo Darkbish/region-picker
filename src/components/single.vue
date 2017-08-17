@@ -41,7 +41,7 @@
               v-for="province in provinces"
               :key="province.adcode"
               :class="{ hover: current.province === province }"
-              @mouseenter="current.province = province; current.city = null"
+              @mouseenter="current.province = province; current.city = null; current.district = null"
               @click="select(province)"
             )
             span {{ province.name }}
@@ -50,7 +50,7 @@
               v-for="city in cities"
               :key="city.adcode"
               :class="{ hover: current.city === city }"
-              @mouseenter="current.city = city"
+              @mouseenter="current.city = city; current.district = null"
               @click="select(city)"
             )
             span {{ city.name }}
@@ -63,6 +63,15 @@
               @click="select(district)"
             )
             span {{ district.name }}
+        ul.scroll-option(ref="town", v-if="maxLevel > 3")
+          li(
+            v-for="town in towns"
+            :key="town.adcode"
+            :class="{ hover: current.town === town }"
+            @mouseenter="current.town = town"
+            @click="select(town)"
+            )
+            span {{ town.name }}
 </template>
 
 <style lang="stylus">
@@ -111,11 +120,12 @@ export default {
         province: null,
         city: null,
         district: null,
+        town: null,
       },
       selected: {},
       results: {},
       searchValue: '',
-      debouncedSearch: () => (() => {}),
+      debouncedSearch: () => (() => { }),
       inputHover: false,
     };
   },
@@ -135,6 +145,12 @@ export default {
         return [];
       }
       return this.current.city.districts;
+    },
+    towns() {
+      if (!this.current.district) {
+        return [];
+      }
+      return this.current.district.districts;
     },
     iconClass() {
       if (this.selected.adcode && this.inputHover && !this.disabled) {
@@ -224,12 +240,13 @@ export default {
     select(place) {
       this.hidePicker();
       this.selected = place;
-      const map = ['country', 'province', 'city', 'district'];
+      const map = ['country', 'province', 'city', 'district', 'town'];
 
       if (!place.adcode) {
         this.current.province = null;
         this.current.city = null;
         this.current.district = null;
+        this.current.town = null;
       }
 
       const set = (p) => {
@@ -265,7 +282,7 @@ export default {
           this.scrollTo(parent);
         }
         if (level > 0) {
-          const map = ['country', 'province', 'city', 'district'];
+          const map = ['country', 'province', 'city', 'district', 'town'];
           const keys = Object.keys(parent.districts);
           const index = keys.indexOf(adcode);
           this.$nextTick(() => {
